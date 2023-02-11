@@ -1,14 +1,30 @@
-const http = require('http')
+require('dotenv').config();
 
-const server = http.createServer(function(req, res){
-    var body = "Hello World";
+const express = require('express');
+const mongoose = require('mongoose');
+const mongoString = process.env.DATABASE_URL;
 
-    res.writeHead(200, {
-        'content-length': body.length,
-        'content-type': 'text/plain'
-    });
+const app = express();
+app.use(express.json());
 
-    res.end(body);
-});
+const routes = require('./routes/routes');
+app.use('/api', routes)
 
-server.listen(8080);
+const PORT = 8080;
+
+const Model = require('./model/model');
+
+mongoose.connect(mongoString);
+const database = mongoose.connection;
+
+database.on('error', (error) => {
+    console.log(error)
+})
+
+database.once('connected', () => {
+    console.log('Database Connected');
+})
+
+app.listen(PORT, () => {
+    console.log(`Server Started at ${PORT}`)
+})
