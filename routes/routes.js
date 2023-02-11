@@ -2,6 +2,13 @@ const express = require('express');
 
 const router = express.Router()
 
+let roomsTpes = [
+    {
+        'Name': "Executive",
+        'id': 001
+    }
+]
+
 router.post('/api/v1/rooms-types', async (req, res) => {
     const data = new Model({
         name: req.body.name,
