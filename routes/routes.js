@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router()
 
-router.post('/post', async (req, res) => {
+router.post('/api/v1/rooms-types', async (req, res) => {
     const data = new Model({
         name: req.body.name,
         age: req.body.age
@@ -18,7 +18,7 @@ router.post('/post', async (req, res) => {
 })
 
 // To get all data from the database
-router.get('/getAll', async (req, res) => {
+router.get('/api/v1/rooms-types', async (req, res) => {
     try{
         const data = await Model.find();
         res.json(data)
@@ -29,9 +29,9 @@ router.get('/getAll', async (req, res) => {
 })
 
 //To get data from the database based on ID
-router.get('/getOne/:id', async (req, res) => {
+router.get('/api/v1/rooms/{roomId}', async (req, res) => {
     try{
-        const data = await Model.findById(req.params.id);
+        const data = await Model.findByroomId(req.params.roomId);
         res.json(data)
     }
     catch(error){
@@ -42,9 +42,9 @@ router.get('/getOne/:id', async (req, res) => {
 
 // To update and delete data based on ID
 //Update by ID Method
-router.patch('/update/:id', async (req, res) => {
+router.patch('/api/v1/rooms/{roomId}', async (req, res) => {
     try {
-        const id = req.params.id;
+        const roomId = req.params.roomId;
         const updatedData = req.body;
         const options = { new: true };
 
@@ -61,10 +61,10 @@ router.patch('/update/:id', async (req, res) => {
 
 
 // To delete data from the database
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/api/v1/rooms/{roomId}', async (req, res) => {
     try {
-        const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id)
+        const id = req.params.roomId;
+        const data = await Model.findByIdAndDelete(roomId)
         res.send(`Document with ${data.name} has been deleted..`)
     }
     catch (error) {
