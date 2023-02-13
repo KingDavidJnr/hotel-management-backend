@@ -1,30 +1,23 @@
-require('dotenv').config();
-
-const express = require('express');
-const mongoose = require('mongoose');
-const mongoString = process.env.DATABASE_URL;
-
-const app = express();
-app.use(express.json());
-
-const routes = require('./routes/routes');
-app.use('/api', routes)
-
+const express = require('express')
+const cors = require('cors')
+const constants = require('./app/constants')
+const database = require('./database/database')
+const app = express()
+const { MESSAGES } = constants;
 const PORT = 8080;
 
-const Model = require('./model/model');
+app.use(cors())
+app.use(express.json())
 
-mongoose.connect(mongoString);
-const database = mongoose.connection;
-
-database.on('error', (error) => {
-    console.log(error)
+// base api
+app.get("/", (req, res) => {
+    res.status(200).send({message: MESSAGES.CONNECTED && "Welcome to my hotel management system..", success: true})
 })
 
-database.once('connected', () => {
-    console.log('Database Connected');
+// Start the Express server
+app.listen(3000, () => {
+    console.log(`Server listening on port ${PORT}`);
+    database() 
 })
 
-app.listen(PORT, () => {
-    console.log(`Server Started at ${PORT}`)
-})
+module.exports = app
