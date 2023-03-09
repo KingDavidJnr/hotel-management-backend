@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 })
 
 // Start the Express server
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
     database() 
 })
